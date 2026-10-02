@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>IdeaLaunch — Submit Your Startup Idea</title>
+
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f5f7fb;
+    color:#111827;
+    min-height:100vh;
+}
+
+.container{
+    width:100%;
+    max-width:720px;
+    margin:auto;
+    padding:30px 18px 60px;
+}
+
+/* ==============================
+   HEADER
+============================== */
+
+.logo{
+    text-align:center;
+    font-size:40px;
+    font-weight:800;
+    margin-bottom:48px;
+    letter-spacing:-1.5px;
+}
+
+.logo .idea{
+    color:#111827;
+}
+
+.logo .launch{
+    color:#214b91;
+}
+
+.hero{
+    text-align:center;
+    margin-bottom:38px;
+}
+
+.hero h1{
+    font-size:42px;
+    line-height:1.15;
+    margin-bottom:18px;
+    letter-spacing:-1.5px;
+}
+
+.hero p{
+    font-size:20px;
+    line-height:1.6;
+    color:#667085;
+}
+
+/* ==============================
+   PROGRESS
+============================== */
+
+.progress{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    margin-bottom:35px;
+}
+
+.progress span{
+    width:42px;
+    height:5px;
+    border-radius:20px;
+    background:#d9dee8;
+    transition:.3s;
+}
+
+.progress span.active{
+    background:#214b91;
+}
+
+/* ==============================
+   CARD
+============================== */
+
+.form-card{
+    background:white;
+    border-radius:24px;
+    padding:30px;
+    box-shadow:0 15px 45px rgba(16,24,40,.08);
+}
+
+/* ==============================
+   STEPS
+============================== */
+
+.step{
+    display:none;
+}
+
+.step.active{
+    display:block;
+}
+
+.step-number{
+    color:#214b91;
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:8px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+}
+
+.step h2{
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+.step-description{
+    color:#667085;
+    line-height:1.5;
+    margin-bottom:25px;
+}
+
+/* ==============================
+   INPUTS
+============================== */
+
+label{
+    display:block;
+    font-size:15px;
+    font-weight:700;
+    margin-bottom:9px;
+}
+
+input,
+textarea{
+    width:100%;
+    border:1px solid #d7dce5;
+    border-radius:13px;
+    padding:15px;
+    font-size:16px;
+    outline:none;
+    background:#fff;
+    transition:.2s;
+}
+
+input:focus,
+textarea:focus{
+    border-color:#214b91;
+    box-shadow:0 0 0 3px rgba(33,75,145,.1);
+}
+
+textarea{
+    min-height:180px;
+    resize:vertical;
+    line-height:1.5;
+}
+
+.input-group{
+    margin-bottom:22px;
+}
+
+/* ==============================
+   GENDER
+============================== */
+
+.gender-options{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:12px;
+}
+
+.gender-option{
+    position:relative;
+}
+
+.gender-option input{
+    position:absolute;
+    opacity:0;
+}
+
+.gender-option label{
+    border:1px solid #d7dce5;
+    border-radius:13px;
+    padding:17px;
+    cursor:pointer;
+    margin:0;
+    font-weight:600;
+    transition:.2s;
+}
+
+.gender-option input:checked + label{
+    border-color:#214b91;
+    background:#f0f5ff;
+    color:#214b91;
+}
+
+/* ==============================
+   BUTTONS
+============================== */
+
+.buttons{
+    display:flex;
+    gap:12px;
+    margin-top:25px;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:700;
+    border-radius:13px;
+    padding:15px 20px;
+    transition:.2s;
+}
+
+.next{
+    flex:1;
+    background:#111827;
+    color:white;
+}
+
+.next:hover{
+    background:#000;
+}
+
+.back{
+    background:#eef0f4;
+    color:#111827;
+}
+
+.back:hover{
+    background:#e2e5ea;
+}
+
+/* ==============================
+   PAYMENT BUTTON
+============================== */
+
+.pay-button{
+    width:100%;
+    background:#111827;
+    color:white;
+    font-size:17px;
+    padding:17px;
+    border-radius:14px;
+    margin-top:10px;
+}
+
+.pay-button:hover{
+    background:#000;
+}
+
+.pay-button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+/* ==============================
+   MOBILE
+============================== */
+
+@media(max-width:600px){
+
+    .container{
+        padding:25px 14px 45px;
+    }
+
+    .logo{
+        font-size:34px;
+        margin-bottom:40px;
+    }
+
+    .hero h1{
+        font-size:34px;
+    }
+
+    .hero p{
+        font-size:18px;
+    }
+
+    .form-card{
+        padding:22px;
+        border-radius:20px;
+    }
+
+    .step h2{
+        font-size:25px;
+    }
+
+    .progress span{
+        width:34px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <!-- LOGO -->
+
+    <div class="logo">
+        <span class="idea">Idea</span><span class="launch">Launch</span>
+    </div>
+
+
+    <!-- HERO -->
+
+    <div class="hero">
+
+        <h1>
+            Have a Startup Idea?
+        </h1>
+
+        <p>
+            Your idea could be the beginning of something meaningful.
+            Tell us about it in just 5 simple steps.
+        </p>
+
+    </div>
+
+
+    <!-- PROGRESS -->
+
+    <div class="progress">
+
+        <span class="active"></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </div>
+
+
+    <!-- FORM CARD -->
+
+    <div class="form-card">
+
+
+        <!-- =========================
+             STEP 1
+        ========================== -->
+
+        <div class="step active">
+
+            <div class="step-number">
+                Step 1 of 5
+            </div>
+
+            <h2>
+                What's your name?
+            </h2>
+
+            <p class="step-description">
+                Let's start with your first name.
+            </p>
+
+            <div class="input-group">
+
+                <label for="name">
+                    First Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter your first name"
+                    autocomplete="given-name"
+                >
+
+            </div>
+
+            <div class="buttons">
+
+                <button
+                    type="button"
+                    class="next"
+                    onclick="nextStep()"
+                >
+                    Continue →
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             STEP 2
+        ========================== -->
+
+        <div class="step">
+
+            <div class="step-number">
+                Step 2 of 5
+            </div>
+
+            <h2>
+                What's your gender?
+            </h2>
+
+            <p class="step-description">
+                Select the option that best describes you.
+            </p>
+
+
+            <div class="gender-options">
+
+                <div class="gender-option">
+
+                    <input
+                        type="radio"
+                        name="gender"
+                        id="male"
+                        value="Male"
+                    >
+
+                    <label for="male">
+                        Male
+                    </label>
+
+                </div>
+
+
+                <div class="gender-option">
+
+                    <input
+                        type="radio"
+                        name="gender"
+                        id="female"
+                        value="Female"
+                    >
+
+                    <label for="female">
+                        Female
+                    </label>
+
+                </div>
+
+
+                <div class="gender-option">
+
+                    <input
+                        type="radio"
+                        name="gender"
+                        id="other"
+                        value="Other"
+                    >
+
+                    <label for="other">
+                        Other
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div class="buttons">
+
+                <button
+                    type="button"
+                    class="back"
+                    onclick="prevStep()"
+                >
+                    ← Back
+                </button>
+
+                <button
+                    type="button"
+                    class="next"
+                    onclick="nextStep()"
+                >
+                    Continue →
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             STEP 3
+        ========================== -->
+
+        <div class="step">
+
+            <div class="step-number">
+                Step 3 of 5
+            </div>
+
+            <h2>
+                Where are you from?
+            </h2>
+
+            <p class="step-description">
+                Tell us your city or address.
+            </p>
+
+
+            <div class="input-group">
+
+                <label for="address">
+                    Address
+                </label>
+
+                <input
+                    type="text"
+                    id="address"
+                    placeholder="Enter your city / address"
+                    autocomplete="street-address"
+                >
+
+            </div>
+
+
+            <div class="buttons">
+
+                <button
+                    type="button"
+                    class="back"
+                    onclick="prevStep()"
+                >
+                    ← Back
+                </button>
+
+                <button
+                    type="button"
+                    class="next"
+                    onclick="nextStep()"
+                >
+                    Continue →
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             STEP 4
+        ========================== -->
+
+        <div class="step">
+
+            <div class="step-number">
+                Step 4 of 5
+            </div>
+
+            <h2>
+                How can we contact you?
+            </h2>
+
+            <p class="step-description">
+                Enter your 10-digit mobile number.
+            </p>
+
+
+            <div class="input-group">
+
+                <label for="mobile">
+                    Mobile Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="mobile"
+                    placeholder="Enter 10-digit mobile number"
+                    maxlength="10"
+                    inputmode="numeric"
+                    autocomplete="tel"
+                >
+
+            </div>
+
+
+            <div class="buttons">
+
+                <button
+                    type="button"
+                    class="back"
+                    onclick="prevStep()"
+                >
+                    ← Back
+                </button>
+
+                <button
+                    type="button"
+                    class="next"
+                    onclick="nextStep()"
+                >
+                    Continue →
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             STEP 5
+        ========================== -->
+
+        <div class="step">
+
+            <div class="step-number">
+                Step 5 of 5
+            </div>
+
+            <h2>
+                Tell us your startup idea
+            </h2>
+
+            <p class="step-description">
+                Explain your idea as clearly as possible.
+            </p>
+
+
+            <div class="input-group">
+
+                <label for="idea">
+                    Your Startup Idea
+                </label>
+
+                <textarea
+                    id="idea"
+                    placeholder="Describe your startup idea..."
+                ></textarea>
+
+            </div>
+
+
+            <!-- PAYMENT BUTTON -->
+
+            <button
+                type="button"
+                class="pay-button"
+                onclick="payAndSubmit()"
+            >
+                Pay ₹19 & Submit Idea →
+            </button>
+
+
+            <div class="buttons">
+
+                <button
+                    type="button"
+                    class="back"
+                    onclick="prevStep()"
+                >
+                    ← Back
+                </button>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE CONFIGURATION
+===================================================== */
+
+const SUPABASE_URL =
+    "https://czzcepsunlzvxihotddv.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable__OS5vagrcJ_WiolhK36Lyg_x5gxZmqf";
+
+
+/* Create Supabase client */
+
+const db =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =====================================================
+   STEP SYSTEM
+===================================================== */
+
+let currentStep = 0;
+
+const steps =
+    document.querySelectorAll(".step");
+
+const progress =
+    document.querySelectorAll(".progress span");
+
+
+function showStep(index){
+
+    steps.forEach((step, i) => {
+
+        step.classList.toggle(
+            "active",
+            i === index
+        );
+
+    });
+
+
+    progress.forEach((item, i) => {
+
+        item.classList.toggle(
+            "active",
+            i <= index
+        );
+
+    });
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   VALIDATE CURRENT STEP
+===================================================== */
+
+function validateStep(){
+
+    const current =
+        steps[currentStep];
+
+
+    /* Radio validation */
+
+    const genderInputs =
+        current.querySelectorAll(
+            'input[name="gender"]'
+        );
+
+
+    if(genderInputs.length > 0){
+
+        const selected =
+            current.querySelector(
+                'input[name="gender"]:checked'
+            );
+
+
+        if(!selected){
+
+            alert(
+                "Please select your gender."
+            );
+
+            return false;
+        }
+
+    }
+
+
+    /* Text inputs */
+
+    const requiredInputs =
+        current.querySelectorAll(
+            'input[type="text"], input[type="tel"], textarea'
+        );
+
+
+    for(const input of requiredInputs){
+
+        if(!input.value.trim()){
+
+            input.focus();
+
+            alert(
+                "Please fill in this field."
+            );
+
+            return false;
+        }
+
+    }
+
+
+    return true;
+}
+
+
+/* =====================================================
+   NEXT STEP
+===================================================== */
+
+function nextStep(){
+
+    if(!validateStep()){
+        return;
+    }
+
+
+    if(currentStep < steps.length - 1){
+
+        currentStep++;
+
+        showStep(currentStep);
+
+    }
+
+}
+
+
+/* =====================================================
+   PREVIOUS STEP
+===================================================== */
+
+function prevStep(){
+
+    if(currentStep > 0){
+
+        currentStep--;
+
+        showStep(currentStep);
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE SUBMISSION
+===================================================== */
+
+async function saveSubmission(){
+
+    /* Get values */
+
+    const name =
+        document
+        .getElementById("name")
+        .value
+        .trim();
+
+
+    const gender =
+        document
+        .querySelector(
+            'input[name="gender"]:checked'
+        )
+        ?.value;
+
+
+    const address =
+        document
+        .getElementById("address")
+        .value
+        .trim();
+
+
+    const mobile =
+        document
+        .getElementById("mobile")
+        .value
+        .trim();
+
+
+    const idea =
+        document
+        .getElementById("idea")
+        .value
+        .trim();
+
+
+    /* ==============================
+       VALIDATION
+    ============================== */
+
+    if(
+        !name ||
+        !gender ||
+        !address ||
+        !mobile ||
+        !idea
+    ){
+
+        alert(
+            "Please complete all fields."
+        );
+
+        return null;
+    }
+
+
+    /* Mobile */
+
+    if(!/^[0-9]{10}$/.test(mobile)){
+
+        alert(
+            "Please enter a valid 10-digit mobile number."
+        );
+
+        return null;
+    }
+
+
+    /* Idea */
+
+    if(idea.length < 10){
+
+        alert(
+            "Please explain your startup idea in a little more detail."
+        );
+
+        return null;
+    }
+
+
+    /* =================================================
+       GENERATE ID LOCALLY
+
+       We don't use .select("id") because public
+       users should not have SELECT permission.
+    ================================================= */
+
+    let submissionId;
+
+
+    if(
+        window.crypto &&
+        typeof window.crypto.randomUUID === "function"
+    ){
+
+        submissionId =
+            window.crypto.randomUUID();
+
+    }else{
+
+        submissionId =
+            "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
+            .replace(/[xy]/g, function(c){
+
+                const r =
+                    Math.random() * 16 | 0;
+
+                const v =
+                    c === "x"
+                    ? r
+                    : (r & 0x3 | 0x8);
+
+                return v.toString(16);
+
+            });
+
+    }
+
+
+    /* =================================================
+       INSERT INTO SUPABASE
+
+       IMPORTANT:
+       No .select()
+       No .single()
+    ================================================= */
+
+    const { error } =
+        await db
+        .from("startup_submissions")
+        .insert({
+
+            id: submissionId,
+
+            name: name,
+
+            gender: gender,
+
+            address: address,
+
+            mobile: mobile,
+
+            idea: idea,
+
+            payment_amount: 19.00,
+
+            payment_status: "pending",
+
+            submitted_at: null
+
+        });
+
+
+    /* =================================================
+       ERROR HANDLING
+    ================================================= */
+
+    if(error){
+
+        console.error(
+            "SUPABASE ERROR:",
+            error
+        );
+
+
+        alert(
+            "Unable to save your submission. Please try again."
+        );
+
+
+        return null;
+    }
+
+
+    /* Save ID locally */
+
+    localStorage.setItem(
+        "startup_submission_id",
+        submissionId
+    );
+
+
+    return submissionId;
+
+}
+
+
+/* =====================================================
+   PAYMENT + SUBMIT
+===================================================== */
+
+async function payAndSubmit(){
+
+    /* Validate Step 5 */
+
+    if(!validateStep()){
+        return;
+    }
+
+
+    const button =
+        document.querySelector(
+            ".pay-button"
+        );
+
+
+    button.disabled = true;
+
+    button.innerText =
+        "Saving your idea...";
+
+
+    try{
+
+        /* Save to Supabase */
+
+        const submissionId =
+            await saveSubmission();
+
+
+        /* If database failed */
+
+        if(!submissionId){
+
+            button.disabled = false;
+
+            button.innerText =
+                "Pay ₹19 & Submit Idea →";
+
+            return;
+        }
+
+
+        /* =================================================
+           YOUR UPI PAYMENT LINK
+
+           DO NOT CHANGE THIS
+        ================================================= */
+
+        const upiLink =
+            "upi://pay?pa=sabita12345pandey172@oksbi&pn=Sabita&am=19.00&cu=INR&aid=uGICAgMD54tjFIg";
+
+
+        /* Store submission ID */
+
+        localStorage.setItem(
+            "pending_payment_submission",
+            submissionId
+        );
+
+
+        /* =================================================
+           OPEN UPI PAYMENT APP
+        ================================================= */
+
+        window.location.href =
+            upiLink;
+
+
+    }catch(error){
+
+        console.error(
+            "PAYMENT/SUBMISSION ERROR:",
+            error
+        );
+
+
+        alert(
+            "Something went wrong. Please try again."
+        );
+
+
+        button.disabled = false;
+
+        button.innerText =
+            "Pay ₹19 & Submit Idea →";
+
+    }
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+showStep(0);
+
+</script>
+
+</body>
+</h
